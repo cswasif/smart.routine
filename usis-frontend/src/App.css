@@ -1,0 +1,782 @@
+:root {
+  --bg-main: #f8f9fa;
+  --bg-card: #fff;
+  --text-main: #212529;
+  --text-title: #222;
+  --tab-active: #007bff;
+  --tab-inactive: #6c757d;
+  --border-main: #e0e0e0;
+  --shadow-main: 0 2px 4px rgba(0,0,0,0.05);
+  --gradient-main: linear-gradient(120deg, #e0e7ff 0%, #f0fdfa 100%);
+}
+
+.dark-mode {
+  --bg-main: #0a0a0f;
+  --bg-card: #13131a;
+  --text-main: #e3e3e3;
+  --text-title: #f1f1f1;
+  --tab-active: #38bdf8;
+  --tab-inactive: #7a8599;
+  --border-main: #23283a;
+  --shadow-main: 0 2px 12px rgba(0,0,0,0.85);
+  --gradient-main: linear-gradient(120deg, #13131a 0%, #0a0a0f 100%);
+}
+
+/* Make all containers, cards, tables, selects, and menus deep dark */
+.dark-mode .container,
+.dark-mode .routine-result-container,
+.dark-mode .routine-table th,
+.dark-mode .routine-table td,
+.dark-mode .react-select__menu,
+.dark-mode .react-select__control,
+.dark-mode .raw-response-container pre,
+.dark-mode .summary-section,
+.dark-mode .page-content,
+.dark-mode .form-group,
+.dark-mode .nav-tabs,
+.dark-mode .nav-tabs .nav-link,
+.dark-mode .nav-tabs .nav-link.active,
+.dark-mode .routine-table tbody tr:nth-child(even) {
+  background: #13131a !important;
+  color: #e3e3e3 !important;
+  border-color: #23283a !important;
+}
+
+.dark-mode .routine-table tbody tr:nth-child(even) {
+  background: #181824 !important;
+}
+
+.dark-mode .lab-schedule,
+.dark-mode .class-schedule {
+  background: #23283a !important;
+  color: #38bdf8 !important;
+}
+
+.dark-mode .nav-tabs .nav-link {
+  background: #13131a !important;
+  color: #7a8599 !important;
+}
+
+.dark-mode .nav-tabs .nav-link.active,
+.dark-mode button.mode-toggle:hover {
+  background: #23283a !important;
+  color: #38bdf8 !important;
+  border-color: #38bdf8 !important;
+}
+
+.dark-mode button,
+.dark-mode button.mode-toggle {
+  background: #23283a !important;
+  color: #e3e3e3 !important;
+  border-color: #23283a !important;
+}
+
+.dark-mode button:hover,
+.dark-mode .nav-tabs .nav-link.active {
+  background: #23283a !important;
+  color: #38bdf8 !important;
+  border-color: #38bdf8 !important;
+}
+
+.dark-mode .usis-title {
+  text-shadow: 0 0 8px #38bdf8, 0 2px 8px #23283a;
+}
+
+.dark-mode .error-message {
+  background: #2a1a1a !important;
+  color: #ffb4b4 !important;
+  border-color: #3a2323 !important;
+}
+
+.dark-mode .react-select__option--is-focused {
+  background: #23283a !important;
+  color: #e3e3e3 !important;
+}
+.dark-mode .react-select__option--is-selected {
+  background: #38bdf8 !important;
+  color: #13131a !important;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.routine-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+  font-size: 0.85em;
+}
+
+.routine-table th,
+.routine-table td {
+  padding: 4px 6px;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.routine-table th {
+  font-weight: 600;
+  background: #f8f9fa;
+}
+
+.routine-table td div {
+  margin-bottom: 2px;
+}
+
+.lab-schedule,
+.class-schedule {
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 0.95em;
+}
+
+.app-title {
+  font-size: 3em;
+  font-weight: bold;
+  color: #333;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin-top: 20px;
+  margin-bottom: 30px;
+  position: relative;
+  display: inline-block; /* To apply text-shadow correctly */
+}
+
+.app-title::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+  z-index: -1;
+  opacity: 0.7;
+  filter: blur(8px);
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--gradient-main);
+  margin: 0;
+  padding: 20px;
+  color: var(--text-main);
+  min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: var(--bg-card);
+  border-radius: 12px;
+  box-shadow: var(--shadow-main);
+  overflow: hidden;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  border-bottom: 1px solid #e0e0e0;
+  background: linear-gradient(to right, #e0f2f7, #b2ebf2); /* Subtle gradient */
+  color: #00796b; /* Dark teal color */
+}
+
+.header h3 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.header div {
+    font-size: 0.9em;
+    color: #004d40; /* Darker teal */
+}
+
+.controls-area {
+  padding: 20px 25px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Space between controls */
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.select-container {
+  flex-grow: 1;
+  min-width: 200px; /* Ensure select is wide enough */
+}
+
+button {
+  padding: 8px 16px;
+  font-size: 0.95em;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #007bff;
+  color: white;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.page-content {
+    padding: 20px 25px;
+    text-align: center;
+}
+
+.page-content h2 {
+    color: #00796b;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+.summary-section {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #e0f7fa; /* Light cyan background */
+    border: 1px solid #b2ebf2;
+    border-radius: 8px;
+    text-align: left;
+    font-size: 0.95em;
+    color: #004d40;
+}
+
+.summary-section div {
+    margin-bottom: 5px;
+}
+
+.routine-result-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #b2ebf2; /* Border matching summary */
+    border-radius: 8px;
+    background-color: #ffffff; /* White background */
+    opacity: 1; /* Base opacity */
+    transition: opacity 0.3s ease-in-out;
+    text-align: left; /* Align content left */
+}
+
+.routine-result-container h3 {
+    text-align: center;
+    color: #00796b;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.raw-response-container {
+    margin-top: 30px;
+    text-align: left;
+}
+
+.raw-response-container h4 {
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.raw-response-container pre {
+    background-color: #f4f4f4;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    border: 1px solid #ddd;
+    max-height: 300px; /* Limit height */
+}
+
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 0.95em;
+}
+
+.loading-spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.spinner-border {
+  width: 2rem;
+  height: 2rem;
+  border: 0.2em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spinner-border .75s linear infinite;
+}
+
+@keyframes spinner-border {
+  to { transform: rotate(360deg); }
+}
+
+/* Adjust the app-title lighting effect */
+.app-title::before {
+  content: '';
+  position: absolute;
+  top: -15px; /* Increased spread */
+  left: -15px; /* Increased spread */
+  right: -15px; /* Increased spread */
+  bottom: -15px; /* Increased spread */
+  background: radial-gradient(circle, rgba(178, 235, 242, 0.4) 0%, rgba(178, 235, 242, 0) 70%); /* Blueish tint */
+  z-index: -1;
+  opacity: 0.8; /* Slightly more visible */
+  filter: blur(12px); /* More blur */
+}
+
+/* Style for the Select components using react-select */
+.react-select-container .react-select__control {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  min-height: 38px;
+  box-shadow: none;
+  transition: all 0.2s ease;
+}
+
+.react-select-container .react-select__control:hover {
+  border-color: #80bdff;
+}
+
+.react-select-container .react-select__control--is-focused {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+.react-select-container .react-select__menu {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border: 1px solid #e0e0e0;
+  margin-top: 4px;
+}
+
+.react-select-container .react-select__option {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.react-select-container .react-select__option--is-focused {
+  background-color: #f8f9fa;
+}
+
+.react-select-container .react-select__option--is-selected {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Specific styles for the faculty options in the Make Routine page */
+.react-select-container .react-select__option.faculty-option-available {
+  /* Custom styles for available faculty options if needed */
+}
+
+.react-select-container .react-select__option.faculty-option-unavailable {
+  /* Custom styles for unavailable faculty options if needed */
+  color: #aaa; /* Dim unavailable options */
+}
+
+/* Nav Tabs */
+.nav-tabs {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+  display: flex;
+  border-bottom: 1px solid var(--border-main);
+}
+
+.nav-tabs .nav-item {
+  margin-bottom: -1px;
+}
+
+.nav-tabs .nav-link {
+  border: none;
+  background: none;
+  color: var(--tab-inactive);
+  padding: 12px 20px;
+  font-weight: 500;
+  transition: all 0.2s;
+  border-radius: 0;
+}
+
+.nav-tabs .nav-link.active {
+  color: var(--tab-active);
+  border-bottom: 2px solid var(--tab-active);
+  background: none;
+}
+
+.nav-tabs .nav-link:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.usis-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-top: 32px;
+  margin-bottom: 32px;
+  letter-spacing: -1px;
+  color: var(--text-title);
+  transition: color 0.3s;
+}
+
+button.mode-toggle {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-main);
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-main);
+  transition: background 0.3s, color 0.3s, border 0.3s;
+  z-index: 10;
+}
+button.mode-toggle:hover {
+  background: var(--tab-active);
+  color: #fff;
+  border: 1px solid var(--tab-active);
+}
+
+.dark-mode .react-select__control {
+  background: var(--bg-card) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border-main) !important;
+}
+.dark-mode .react-select__menu {
+  background: var(--bg-card) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border-main) !important;
+}
+.dark-mode .react-select__option {
+  background: var(--bg-card) !important;
+  color: var(--text-main) !important;
+}
+.dark-mode .react-select__option--is-focused {
+  background: #23283a !important;
+  color: var(--text-main) !important;
+}
+.dark-mode .react-select__option--is-selected {
+  background: var(--tab-active) !important;
+  color: #181824 !important;
+}
+
+.dark-mode .routine-table th,
+.dark-mode .routine-table td,
+.dark-mode .container,
+.dark-mode .routine-result-container,
+.dark-mode .react-select__menu,
+.dark-mode .react-select__control {
+  background: #181824 !important;
+  color: #e0e7ef !important;
+  border-color: #23283a !important;
+}
+.dark-mode .routine-table tbody tr:nth-child(even) {
+  background-color: #15161c !important;
+}
+
+.dark-mode .lab-schedule,
+.dark-mode .class-schedule {
+  background: #23283a !important;
+  color: #7dd3fc !important;
+}
+
+.dark-mode .nav-tabs .nav-link.active,
+.dark-mode button.mode-toggle:hover {
+  background: #23283a !important;
+  color: #38bdf8 !important;
+  border-color: #38bdf8 !important;
+}
+
+.dark-mode .nav-tabs .nav-link {
+  background: #181824 !important;
+  color: #7a8599 !important;
+}
+
+.dark-mode .usis-title {
+  text-shadow: 0 0 8px #7dd3fc, 0 2px 8px #23283a;
+}
+
+/* Deep dark dropdown for react-select in dark mode */
+.dark-mode .react-select__menu,
+.dark-mode .react-select__menu-list,
+.dark-mode .react-select__option {
+  background: #181824 !important;
+  color: #e3e3e3 !important;
+  border-color: #23283a !important;
+}
+
+/* Focused (hovered) option */
+.dark-mode .react-select__option--is-focused {
+  background: #23283a !important;
+  color: #e3e3e3 !important;
+}
+
+/* Selected option */
+.dark-mode .react-select__option--is-selected {
+  background: #38bdf8 !important;
+  color: #181824 !important;
+  font-weight: bold;
+}
+
+/* Control (input) background */
+.dark-mode .react-select__control {
+  background: #181824 !important;
+  color: #e3e3e3 !important;
+  border-color: #23283a !important;
+}
+
+/* Placeholder and single value text */
+.dark-mode .react-select__single-value,
+.dark-mode .react-select__placeholder {
+  color: #b0b8c1 !important;
+}
+
+.routine-table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* Compact form controls and selects */
+.make-routine-form label,
+.make-routine-form .form-group label {
+  font-size: 0.95em;
+  margin-bottom: 2px;
+}
+
+.make-routine-form .form-group,
+.make-routine-form > div {
+  margin-bottom: 10px !important;
+  padding: 0 !important;
+}
+
+.make-routine-form .Select__control,
+.make-routine-form .react-select__control {
+  min-height: 32px !important;
+  font-size: 0.95em !important;
+}
+
+.make-routine-form .react-select__option {
+  padding: 4px 8px !important;
+  font-size: 0.95em !important;
+}
+
+.make-routine-form .faculty-card,
+.make-routine-form .course-card {
+  padding: 8px 10px !important;
+  margin-bottom: 8px !important;
+  border-radius: 6px !important;
+  font-size: 0.95em !important;
+}
+
+.make-routine-form .summary-section {
+  padding: 8px 10px !important;
+  font-size: 0.95em !important;
+  margin-top: 10px !important;
+}
+
+.make-routine-form h3 {
+  font-size: 1.1em !important;
+  margin: 0 0 6px 0 !important;
+}
+
+.make-routine-form .selected-faculty {
+  font-size: 0.92em !important;
+  margin-left: 6px !important;
+}
+
+.make-routine-form button {
+  padding: 6px 14px !important;
+  font-size: 0.95em !important;
+  border-radius: 5px !important;
+}
+
+/* Exam Dates Table Styles */
+.exam-dates-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.9em;
+  background: var(--bg-card);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-main);
+}
+
+.exam-dates-table th,
+.exam-dates-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-main);
+}
+
+.exam-dates-table th {
+  background: var(--bg-main);
+  font-weight: 600;
+  color: var(--text-title);
+}
+
+.exam-dates-table tr:last-child td {
+  border-bottom: none;
+}
+
+.exam-dates-table tr:hover {
+  background: var(--bg-main);
+}
+
+/* AI Analysis Container */
+.ai-analysis-container {
+  margin: 20px 0;
+  padding: 16px;
+  border-radius: 8px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-main);
+}
+
+.ai-analysis-container h3 {
+  margin: 0 0 16px 0;
+  color: var(--text-title);
+  font-size: 1.1em;
+}
+
+/* Improve button styles */
+.ai-button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.95em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 120px;
+}
+
+.ai-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.ai-button.feedback {
+  background: #4caf50;
+  color: white;
+}
+
+.ai-button.exam {
+  background: #f44336;
+  color: white;
+}
+
+.ai-button.time {
+  background: #2196f3;
+  color: white;
+}
+
+/* Improve result display */
+.ai-result {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 0.95em;
+  line-height: 1.5;
+}
+
+.ai-result.feedback {
+  background: #e8f5e9;
+  border: 1px solid #c8e6c9;
+  color: #2e7d32;
+}
+
+.ai-result.exam {
+  background: #fffde7;
+  border: 1px solid #ffe082;
+  color: #856404;
+}
+
+.ai-result.time {
+  background: #e3f2fd;
+  border: 1px solid #90caf9;
+  color: #0d47a1;
+}
+
+/* Improve loading state */
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ffffff;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
